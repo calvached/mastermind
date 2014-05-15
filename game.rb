@@ -79,19 +79,8 @@ class Game
 			@message.play_instructions
 			player_options(gets.chomp)
 		when '2'
-			# Maybe I should be creating a round/guess here instead?
 			@message.intro_to_game
-			maker = CodeMaker.new
-			board = Board.new(maker.unsolved_pattern)
-
-			1.upto(12) do |num|
-				# board.show_all_guesses
-				print "Guess #{num}: "
-				user_guess = gets.chomp.upcase
-					board.save_guess(user_guess)
-					maker.give_feedback(user_guess)
-			end
-
+			start_game
 		when '3'
 			@message.greeting
 			player_options(gets.chomp)
@@ -100,6 +89,20 @@ class Game
 		else
 			@message.help
 			player_options(gets.chomp)
+		end
+	end
+
+	def start_game
+		# Maybe I should be creating a round/guess here instead?
+		maker = CodeMaker.new
+		board = Board.new(maker.unsolved_pattern)
+
+		1.upto(12) do |num|
+			# board.show_all_guesses
+			print "Guess #{num}: "
+			user_guess = gets.chomp.upcase
+				board.save_guess(user_guess)
+				maker.give_feedback(user_guess)
 		end
 	end
 end

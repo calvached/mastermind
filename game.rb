@@ -10,7 +10,17 @@ class CodeMaker
 	end
 
 	def give_feedback(user_guess)
-		p user_guess
+		letter_only_counter = []
+		unless user_guess.empty?
+			user_guess.split('').each do |letter|
+				if @unsolved_pattern.include?(letter)
+					letter_only_counter << letter
+				end
+			end
+			puts "Outside the loop: #{letter_only_counter} #{letter_only_counter.length}, answer: #{@unsolved_pattern}"
+		else
+			puts "Foolish mortal, you have thrown away a guess!"
+		end
 
 		# Correct letter and position: 1
 		# Correct letter and incorrect position: 2 
@@ -38,10 +48,16 @@ class Board
 		@codebreaker_guesses << user_guess
 	end
 
-	def print_all_guesses
+	def show_all_guesses
+		puts
+		puts '[* * * *]'
 		@codebreaker_guesses.each do |guess|
 			puts "[#{guess}]"
 		end
+	end
+
+	def show_solved_board
+		
 	end
 end
 
@@ -64,17 +80,16 @@ class Game
 			player_options(gets.chomp)
 		when '2'
 			# Maybe I should be creating a round/guess here instead?
-			maker = CodeMaker.new
-			# Maybe it's easier to keep track of the pattern, the guess, and the number of guesses (counter) in the same spot?
 			@message.intro_to_game
+			maker = CodeMaker.new
 			board = Board.new(maker.unsolved_pattern)
 
 			1.upto(12) do |num|
-				# board.print_all_guesses
+				# board.show_all_guesses
 				print "Guess #{num}: "
 				user_guess = gets.chomp.upcase
-				board.save_guess(user_guess)
-				maker.give_feedback(user_guess)
+					board.save_guess(user_guess)
+					maker.give_feedback(user_guess)
 			end
 
 		when '3'
@@ -87,7 +102,6 @@ class Game
 			player_options(gets.chomp)
 		end
 	end
-
 end
 
 game = Game.new
@@ -95,8 +109,6 @@ p game.run
 
 # TODO:
 # Guess/Round
-# Board
 # Feedback
 # Computer (CodeMaker)
 # Human (CodeBreaker)
-

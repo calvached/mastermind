@@ -10,23 +10,42 @@ class CodeMaker
 	end
 
 	def give_feedback(user_guess)
-		letter_only_counter = []
 		unless user_guess.empty?
-			user_guess.split('').each do |letter|
-				if @unsolved_pattern.include?(letter)
-					letter_only_counter << letter
-				end
-			end
-			puts "Outside the loop: #{letter_only_counter} #{letter_only_counter.length}, answer: #{@unsolved_pattern}"
+			return true if exact_match?(user_guess)
+			letter_with_position_match(user_guess)
+			letter_match(user_guess)
 		else
-			puts "Foolish mortal, you have thrown away a guess!"
+			puts ['Foolish mortal, you have thrown away a guess!',
+				    'Did you even READ the instructions??',
+				    "Well there goes your guess...now you're never going to see it again",
+				    'That was a bad guess...and you should feel bad',
+				    "Let's play by the rules now shall we?"].sample
 		end
-
-		# Correct letter and position: 1
-		# Correct letter and incorrect position: 2 
+		# Correct letter and incorrect position: 2
 	end
 
 	private
+
+	def exact_match?(user_guess)
+		@unsolved_pattern == user_guess
+	end
+
+	def letter_with_position_match(user_guess)
+		counter = []
+		user_guess.each_with_index do |cb_letter, cb_i|
+				if @unsolved_pattern.include?(cb_letter)
+					@unsolved_pattern.each_with_index do |cm_letter, cm_i|
+					  counter << cb_letter if cb_letter == cm_letter && cb_i == cm_i
+					end
+				end
+			end
+
+		puts "Correct letter and position: #{counter.length}, answer: #{@unsolved_pattern}"
+	end
+
+	def letter_match(user_guess)
+		
+	end
 
 	def generate_code_pattern
 		array = ('A'..'F').to_a
@@ -50,8 +69,9 @@ class Board
 
 	def show_all_guesses
 		puts
+		puts '~CURRENT BOARD~'
 		puts '[* * * *]'
-		@codebreaker_guesses.each do |guess|
+		@codebreaker_guesses.reverse.each do |guess|
 			puts "[#{guess}]"
 		end
 	end
@@ -98,27 +118,35 @@ class Game
 		board = Board.new(maker.unsolved_pattern)
 
 		1.upto(12) do |num|
-			# board.show_all_guesses
+			board.show_all_guesses
 			print "Guess #{num}: "
-			user_guess = valid_guess(gets.chomp.upcase)
-			board.save_guess(user_guess)
-			maker.give_feedback(user_guess)
+			guess = format_guess(get_codebreaker_guess)
+			board.save_guess(guess)
+			return game_finished if maker.give_feedback(guess)
 		end
 	end
 
-	def valid_guess(user_guess)
+	def game_finished
+		puts 'You have outwitted the CodeMaker, you are a Mastermind!'
+	end
+
+	def get_codebreaker_guess
+		gets.chomp.upcase.split('')
+	end
+
+	def format_guess(guess)
 		arr = []
-		unless user_guess.length == 4
+		unless guess.length == 4
 			""
 		else
-				user_guess.split('').each do |letter|
+				guess.each do |letter|
 					arr << /[A-F]/.match(letter)
 				end
 
 				if arr.include?(nil)
 					""
 				else
-					user_guess
+					guess
 				end
 		end
 	end
@@ -126,9 +154,3 @@ end
 
 game = Game.new
 p game.run
-
-# TODO:
-# Guess/Round
-# Feedback
-# Computer (CodeMaker)
-# Human (CodeBreaker)

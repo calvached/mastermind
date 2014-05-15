@@ -93,16 +93,33 @@ class Game
 	end
 
 	def start_game
-		# Maybe I should be creating a round/guess here instead?
+		# Maybe I should be creating a round/guess here instead?	
 		maker = CodeMaker.new
 		board = Board.new(maker.unsolved_pattern)
 
 		1.upto(12) do |num|
 			# board.show_all_guesses
 			print "Guess #{num}: "
-			user_guess = gets.chomp.upcase
-				board.save_guess(user_guess)
-				maker.give_feedback(user_guess)
+			user_guess = valid_guess(gets.chomp.upcase)
+			board.save_guess(user_guess)
+			maker.give_feedback(user_guess)
+		end
+	end
+
+	def valid_guess(user_guess)
+		arr = []
+		unless user_guess.length == 4
+			""
+		else
+				user_guess.split('').each do |letter|
+					arr << /[A-F]/.match(letter)
+				end
+
+				if arr.include?(nil)
+					""
+				else
+					user_guess
+				end
 		end
 	end
 end

@@ -20,10 +20,22 @@ class CodeMaker
 	end
 end
 
+class Guess
+	attr_reader :all_user_guesses
+	def initialize
+		@all_user_guesses = []
+	end
+
+	def save_user_guess(user_guess)
+		@all_user_guesses << user_guess
+	end
+end
+
 class Game
 	def initialize
 		@message = MessagesToCodeBreaker.new
 	end
+
 	def run
 		@message.greeting
 		player_options(gets.chomp)
@@ -39,8 +51,16 @@ class Game
 		when '2'
 			# Maybe I should be creating a round/guess here instead?
 			maker = CodeMaker.new
-			maker.unsolved_pattern
+			# Maybe it's easier to keep track of the pattern, the guess, and the number of guesses (counter) in the same spot?
 			@message.intro_to_game
+			guess = Guess.new
+
+			1.upto(12) do |num|
+				print "Guess #{num}: "
+				guess.save_user_guess(gets.chomp.upcase)
+			end
+			guess.all_user_guesses
+
 		when '3'
 			@message.greeting
 			player_options(gets.chomp)
@@ -51,6 +71,7 @@ class Game
 			player_options(gets.chomp)
 		end
 	end
+
 end
 
 game = Game.new

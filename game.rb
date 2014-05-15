@@ -9,6 +9,13 @@ class CodeMaker
 		@unsolved_pattern = generate_code_pattern
 	end
 
+	def give_feedback(user_guess)
+		p user_guess
+
+		# Correct letter and position: 1
+		# Correct letter and incorrect position: 2 
+	end
+
 	private
 
 	def generate_code_pattern
@@ -20,14 +27,21 @@ class CodeMaker
 	end
 end
 
-class Guess
-	attr_reader :all_user_guesses
-	def initialize
-		@all_user_guesses = []
+class Board
+	attr_reader :codebreaker_guesses
+	def initialize(maker_pattern)
+		@maker_pattern = maker_pattern
+		@codebreaker_guesses = [] || 'none'
 	end
 
-	def save_user_guess(user_guess)
-		@all_user_guesses << user_guess
+	def save_guess(user_guess)
+		@codebreaker_guesses << user_guess
+	end
+
+	def print_all_guesses
+		@codebreaker_guesses.each do |guess|
+			puts "[#{guess}]"
+		end
 	end
 end
 
@@ -53,13 +67,15 @@ class Game
 			maker = CodeMaker.new
 			# Maybe it's easier to keep track of the pattern, the guess, and the number of guesses (counter) in the same spot?
 			@message.intro_to_game
-			guess = Guess.new
+			board = Board.new(maker.unsolved_pattern)
 
 			1.upto(12) do |num|
+				# board.print_all_guesses
 				print "Guess #{num}: "
-				guess.save_user_guess(gets.chomp.upcase)
+				user_guess = gets.chomp.upcase
+				board.save_guess(user_guess)
+				maker.give_feedback(user_guess)
 			end
-			guess.all_user_guesses
 
 		when '3'
 			@message.greeting
@@ -83,8 +99,4 @@ p game.run
 # Feedback
 # Computer (CodeMaker)
 # Human (CodeBreaker)
-
-# Feedback will look like this:
-# Correct letter and position: 1
-# Correct letter and incorrect position: 2 
 

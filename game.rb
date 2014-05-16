@@ -37,7 +37,7 @@ class Game
 		maker = CodeMaker.new
 		@board = Board.new(maker.unsolved_pattern)
 
-		1.upto(12) do |num|
+		1.upto(10) do |num|
 			@board.show_current_guesses
 			print "Guess #{num}: "
 			guess = format_guess(get_codebreaker_guess)
@@ -53,9 +53,9 @@ class Game
 			puts "#{num} try, really? You're either really lucky or you cheated, either way I don't like you!"
 		when 2..4
 			puts "You have outwitted the CodeMaker in #{num} tries, you are a Mastermind!"
-		when 5..9
+		when 5..7
 			puts "#{num} tries is not too shabby if I do say so myself."
-		when 10..12
+		when 8..10
 			puts "Dude...it took you #{num} tries, for a second there I almost thought you wouldn't make it!"
 		end
 	end

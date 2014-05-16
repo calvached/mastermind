@@ -44,9 +44,8 @@ class CodeMaker
 	end
 
 	def letter_match(user_guess)
-		# this sometimes works...ugh
 		counter = []
-		user_guess.each do |letter|
+		user_guess.uniq.each do |letter|
 			counter << letter if unmatched_letters.include?(letter)
 		end
 

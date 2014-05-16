@@ -34,7 +34,6 @@ class Game
 	end
 
 	def start_game
-		# Maybe I should be creating a round/guess here instead?	
 		maker = CodeMaker.new
 		@board = Board.new(maker.unsolved_pattern)
 

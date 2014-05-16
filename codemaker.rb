@@ -40,7 +40,7 @@ class CodeMaker
 				end
 			end
 
-		puts "Correct letter with position: #{counter.length}, answer: #{@unsolved_pattern}"
+		puts "Correct letter with position: #{counter.length}"
 	end
 
 	def letter_match(user_guess)

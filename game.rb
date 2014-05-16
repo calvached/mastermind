@@ -1,85 +1,6 @@
 require_relative 'messages_to_player'
-
-class CodeMaker
-	# the codemaker has to make a pattern
-	# the codemaker has to check whether the pattern matches or not
-	# the codemaker has to give feedback
-	attr_reader :unsolved_pattern
-	def initialize
-		@unsolved_pattern = generate_code_pattern
-	end
-
-	def give_feedback(user_guess)
-		unless user_guess.empty?
-			return true if exact_match?(user_guess)
-			letter_with_position_match(user_guess)
-			letter_match(user_guess)
-		else
-			puts ['Foolish mortal, you have thrown away a guess!',
-				    'Did you even READ the instructions??',
-				    "Well there goes your guess...now you're never going to see it again",
-				    'That was a bad guess...and you should feel bad',
-				    "Let's play by the rules now shall we?"].sample
-		end
-		# Correct letter and incorrect position: 2
-	end
-
-	private
-
-	def exact_match?(user_guess)
-		@unsolved_pattern == user_guess
-	end
-
-	def letter_with_position_match(user_guess)
-		counter = []
-		user_guess.each_with_index do |cb_letter, cb_i|
-				if @unsolved_pattern.include?(cb_letter)
-					@unsolved_pattern.each_with_index do |cm_letter, cm_i|
-					  counter << cb_letter if cb_letter == cm_letter && cb_i == cm_i
-					end
-				end
-			end
-
-		puts "Correct letter and position: #{counter.length}, answer: #{@unsolved_pattern}"
-	end
-
-	def letter_match(user_guess)
-		
-	end
-
-	def generate_code_pattern
-		array = ('A'..'F').to_a
-		box = []
-
-		1.upto(4) { box << array.sample }
-		box
-	end
-end
-
-class Board
-	attr_reader :codebreaker_guesses
-	def initialize(maker_pattern)
-		@maker_pattern = maker_pattern
-		@codebreaker_guesses = [] || 'none'
-	end
-
-	def save_guess(user_guess)
-		@codebreaker_guesses << user_guess
-	end
-
-	def show_all_guesses
-		puts
-		puts '~CURRENT BOARD~'
-		puts '[* * * *]'
-		@codebreaker_guesses.reverse.each do |guess|
-			puts "[#{guess}]"
-		end
-	end
-
-	def show_solved_board
-		
-	end
-end
+require_relative 'board'
+require_relative 'codemaker'
 
 class Game
 	def initialize
@@ -115,19 +36,29 @@ class Game
 	def start_game
 		# Maybe I should be creating a round/guess here instead?	
 		maker = CodeMaker.new
-		board = Board.new(maker.unsolved_pattern)
+		@board = Board.new(maker.unsolved_pattern)
 
 		1.upto(12) do |num|
-			board.show_all_guesses
+			@board.show_current_guesses
 			print "Guess #{num}: "
 			guess = format_guess(get_codebreaker_guess)
-			board.save_guess(guess)
-			return game_finished if maker.give_feedback(guess)
+			@board.save_guess(guess)
+			return game_finished(num) if maker.give_feedback(guess)
 		end
 	end
 
-	def game_finished
-		puts 'You have outwitted the CodeMaker, you are a Mastermind!'
+	def game_finished(num)
+		@board.show_solved_board
+		case num
+		when 1
+			puts "#{num} try, really? You're either really lucky or you cheated, either way I don't like you!"
+		when 2..4
+			puts "You have outwitted the CodeMaker in #{num} tries, you are a Mastermind!"
+		when 5..9
+			puts "#{num} tries is not too shabby if I do say so myself."
+		when 10..12
+			puts "Dude...it took you #{num} tries, for a second there I almost thought you wouldn't make it!"
+		end
 	end
 
 	def get_codebreaker_guess
@@ -153,4 +84,4 @@ class Game
 end
 
 game = Game.new
-p game.run
+game.run

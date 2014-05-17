@@ -1,4 +1,5 @@
 # Mastermind
+So you want to be a Mastermind?
 
 ## Ruby version
 

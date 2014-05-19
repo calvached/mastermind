@@ -40,16 +40,19 @@ class Game
 		1.upto(10) do |num|
 			@board.show_current_guesses
 			print "Guess #{num}: "
-			guess = format_guess(get_codebreaker_guess)
+			guess = get_codebreaker_guess
 
-				while guess.empty?
+				while guess.empty? do
 					maker.give_feedback(guess)
 					print "Guess #{num}: "
-					guess = format_guess(get_codebreaker_guess)
+				  guess = get_codebreaker_guess
 				end
 
 			@board.save_guess(guess)
+
 			return game_finished(num) if maker.give_feedback(guess)
+
+			@board.save_feedback(maker.current_position_match, maker.current_letter_match)
 		end
 	end
 
@@ -57,35 +60,35 @@ class Game
 		@board.show_solved_board
 		case num
 		when 1
-			puts "#{num} try, really? You're either really lucky or you cheated, either way I don't like you!"
+			@message.one_shot_wonder(num)
 		when 2..4
-			puts "You have outwitted the CodeMaker in #{num} tries, you are a Mastermind!"
+			@message.true_mastermind(num)
 		when 5..7
-			puts "#{num} tries is not too shabby if I do say so myself."
+			@message.not_too_shabby(num)
 		when 8..10
-			puts "Dude...it took you #{num} tries, for a second there I almost thought you wouldn't make it!"
+			@message.close_call(num)
 		end
 	end
 
 	def get_codebreaker_guess
-		gets.chomp.upcase.split('')
+		delete_any_invalid_patterns(gets.chomp.upcase.split(''))
 	end
 
-	def format_guess(guess)
-		arr = []
+	def delete_any_invalid_patterns(guess)
 		unless guess.length == 4
 			""
 		else
-				guess.each do |letter|
-					arr << /[A-F]/.match(letter)
-				end
-
-				if arr.include?(nil)
-					""
-				else
-					guess
-				end
+			delete_patterns_with_invalid_characters(guess)
 		end
+	end
+
+	def delete_patterns_with_invalid_characters(guess)
+		arr = []
+		guess.each do |letter|
+			arr << /[A-F]/.match(letter)
+		end
+
+		arr.include?(nil) ? "" : guess
 	end
 end
 

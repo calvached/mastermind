@@ -1,26 +1,30 @@
+require_relative 'board'
+
 class CodeMaker
 	attr_reader :unsolved_pattern, :solved_pattern
+	attr_accessor :current_position_match, :current_letter_match
 
 	def initialize
+		@message = MessagesToCodeBreaker.new
 		@unsolved_pattern = generate_code_pattern
 		@solved_pattern = false
+		@current_position_match = nil
+		@current_letter_match = nil
 	end
 
 	def give_feedback(user_guess)
 		unless user_guess.empty?
 			return @solved_pattern = true if exact_match?(user_guess)
-			letter_with_position_match(user_guess)
-			letter_match(user_guess)
+
+			@current_position_match = letter_with_position_match(user_guess)
+			@current_letter_match = letter_match(user_guess)
+			puts
 		else
-			puts 'Invalid guess. Please try again. You may use 4 of the following letters: A, B, C, D, E, F.'
+			@message.invalid_guess
 		end
 	end
 
 	private
-
-	def exact_match?(user_guess)
-		@unsolved_pattern == user_guess
-	end
 
 	def letter_with_position_match(user_guess)
 		@indexes = []
@@ -36,16 +40,21 @@ class CodeMaker
 				end
 			end
 
-		puts "Correct letter with position: #{counter.length}"
+		counter.length
 	end
 
 	def letter_match(user_guess)
+		# This sometimes works -_-
 		counter = []
 		user_guess.uniq.each do |letter|
 			counter << letter if unmatched_letters.include?(letter)
 		end
 
-		puts "Correct letter only: #{counter.length}"
+		counter.length
+	end
+
+	def exact_match?(user_guess)
+		@unsolved_pattern == user_guess
 	end
 
 	def unmatched_letters

@@ -50,4 +50,24 @@ class MessagesToCodeBreaker
 	def help
 		puts "Invalid command. Press 3 for Help."
 	end
+
+	def invalid_guess
+		puts 'Invalid guess. Please try again. You may use 4 of the following letters: A, B, C, D, E, F.'
+	end
+
+	def one_shot_wonder(num)
+		puts "#{num} try, really? You're either really lucky or you cheated, either way I don't like you!"
+	end
+
+	def true_mastermind(num)
+		puts "You have outwitted the CodeMaker in #{num} tries, you are a Mastermind!"
+	end
+
+	def not_too_shabby(num)
+		puts "#{num} tries is not too shabby if I do say so myself."
+	end
+
+	def close_call(num)
+		puts "Dude...it took you #{num} tries, for a second there I almost thought you wouldn't make it!"
+	end
 end

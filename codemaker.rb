@@ -12,11 +12,7 @@ class CodeMaker
 			letter_with_position_match(user_guess)
 			letter_match(user_guess)
 		else
-			puts ['Foolish mortal, you have thrown away a guess!',
-				    'Did you even READ the instructions??',
-				    "Well there goes your guess...now you're never going to see it again",
-				    'That was a bad guess...and you should feel bad',
-				    "Let's play by the rules now shall we?"].sample
+			puts 'Invalid guess. Please try again. You may use 4 of the following letters: A, B, C, D, E, F.'
 		end
 	end
 

@@ -12,6 +12,7 @@ class MessagesToCodeBreaker
 	end
 
 	def greeting
+                                                        
 		puts '###################################'
 		puts '#     ~WELCOME TO MASTERMIND!~    #'
 		puts '#          COMMAND LIST:          #'
@@ -29,7 +30,7 @@ class MessagesToCodeBreaker
 		puts '# with 4 of the following letters: A, B, C, D, E, F.   #'
 		puts '# Your job is to break the code (correct letters and   #'
 		puts '# correct order) with the least number of guesses.     #'
-		puts '# You will have a total of 12 pattern guesses each     #'
+		puts '# You will have a total of 10 pattern guesses each     #'
 		puts '# game. After each guess the CodeMaker will provide    #'
 		puts '# feedback by telling you how many guesses are correct #'
 		puts '# in both letter and position and also how many        #'

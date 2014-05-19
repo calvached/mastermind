@@ -41,6 +41,13 @@ class Game
 			@board.show_current_guesses
 			print "Guess #{num}: "
 			guess = format_guess(get_codebreaker_guess)
+
+				while guess.empty?
+					maker.give_feedback(guess)
+					print "Guess #{num}: "
+					guess = format_guess(get_codebreaker_guess)
+				end
+
 			@board.save_guess(guess)
 			return game_finished(num) if maker.give_feedback(guess)
 		end

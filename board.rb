@@ -24,9 +24,9 @@ class Board
 		output_codebreaker_guesses
 	end
 
-	def show_solved_board
+	def show_solved_board(player_outcome)
 		puts 
-		puts '~WINNING BOARD~'
+		puts "~ #{player_outcome} BOARD ~"
 		puts "#{@maker_pattern}"
 		output_codebreaker_guesses
 	end

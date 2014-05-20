@@ -53,11 +53,12 @@ class Game
 			return game_finished(num) if maker.give_feedback(guess)
 
 			@board.save_feedback(maker.current_position_match, maker.current_letter_match)
+			@board.show_solved_board('LOSING') if num == 10
 		end
 	end
 
 	def game_finished(num)
-		@board.show_solved_board
+		@board.show_solved_board('WINNING')
 		case num
 		when 1
 			@message.one_shot_wonder(num)

@@ -33,9 +33,9 @@ class MessagesToCodeBreaker
 		puts '# You will have a total of 10 pattern guesses each     #'
 		puts '# game. After each guess the CodeMaker will provide    #'
 		puts '# feedback by telling you how many guesses are correct #'
-		puts '# in both letter and position and also how many        #'
+		puts '# in both letter and position (o) and also how many    #'
 		puts '# guesses are the correct letter, but in the wrong     #'
-		puts '# position.                                            #'
+		puts '# position (x).                                        #'
 		puts '#                                                      #'
 		puts '# In order to submit a pattern guess you must first    #'
 		puts '# enter 4 valid characters then press the [return] or  #'
@@ -44,7 +44,7 @@ class MessagesToCodeBreaker
 	end
 
 	def quit_game
-		puts 'Goodbye....for now'
+		puts 'Goodbye.'
 	end
 
 	def help

@@ -64,10 +64,10 @@ class CodeMaker
 	end
 
 	def generate_code_pattern
-		array = ('A'..'F').to_a
-		box = []
+		letter_pool = ('A'..'F').to_a
+		pattern = []
 
-		1.upto(4) { box << array.sample }
-		box
+		1.upto(4) { pattern << letter_pool.sample }
+		pattern
 	end
 end

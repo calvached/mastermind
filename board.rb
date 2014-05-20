@@ -5,6 +5,7 @@ class Board
 
 	def initialize(maker_pattern)
 		@maker_pattern = maker_pattern
+		@message = MessagesToCodeBreaker.new
 		@codebreaker_guesses = []
 		@feedback = []
 	end
@@ -18,22 +19,18 @@ class Board
 	end
 
 	def show_current_guesses
-		puts
-		puts '~CURRENT BOARD~'
-		puts '[* * * *]'
+		@message.current_board
 		output_codebreaker_guesses
 	end
 
 	def show_solved_board(player_outcome)
-		puts 
-		puts "~ #{player_outcome} BOARD ~"
-		puts "#{@maker_pattern}"
+		@message.solved_board(player_outcome, @maker_pattern)
 		output_codebreaker_guesses
 	end
 
 	def output_codebreaker_guesses
 		@codebreaker_guesses.length.downto(0) do |i|
-			puts "#{@codebreaker_guesses[i]} #{@feedback[i]}"
+			@message.show_guess(@codebreaker_guesses[i], @feedback[i])
 		end
 	end
 

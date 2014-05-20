@@ -70,4 +70,20 @@ class MessagesToCodeBreaker
 	def close_call(num)
 		puts "Dude...it took you #{num} tries, for a second there I almost thought you wouldn't make it!"
 	end
+
+	def current_board
+		puts
+		puts '~CURRENT BOARD~'
+		puts '[* * * *]'
+	end
+
+	def solved_board(player_outcome, pattern)
+		puts 
+		puts "~ #{player_outcome} BOARD ~"
+		puts "#{pattern}"
+	end
+
+	def show_guess(guess, feedback)
+		puts "#{guess} #{feedback}"
+	end
 end

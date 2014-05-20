@@ -1,4 +1,3 @@
-require_relative 'board'
 
 class CodeMaker
 	attr_reader :unsolved_pattern, :solved_pattern

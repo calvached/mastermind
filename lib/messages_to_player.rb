@@ -2,7 +2,7 @@ class MessagesToCodeBreaker
 
 	def intro_to_game
 		puts '########################################'
-		puts '# The CodeMaker has encoded a pattern. #' 
+		puts '# The CodeMaker has encoded a pattern. #'
 		puts '#     Will you be able to solve it?    #'
 		puts '#  May the odds be ever in your favor. #'
 		puts '#        Here are your options:        #'
@@ -12,7 +12,6 @@ class MessagesToCodeBreaker
 	end
 
 	def greeting
-                                                        
 		puts '###################################'
 		puts '#     ~WELCOME TO MASTERMIND!~    #'
 		puts '#          COMMAND LIST:          #'
@@ -78,7 +77,7 @@ class MessagesToCodeBreaker
 	end
 
 	def solved_board(player_outcome, pattern)
-		puts 
+		puts
 		puts "~ #{player_outcome} BOARD ~"
 		puts "#{pattern}"
 	end

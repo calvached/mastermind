@@ -39,6 +39,7 @@ class Game
 
 		1.upto(10) do |num|
 			@board.show_current_guesses
+			puts maker.unsolved_pattern
 			print "Guess #{num}: "
 			guess = get_codebreaker_guess
 
@@ -92,6 +93,3 @@ class Game
 		arr.include?(nil) ? "" : guess
 	end
 end
-
-game = Game.new
-game.run

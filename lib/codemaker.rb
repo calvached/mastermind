@@ -21,12 +21,28 @@ class CodeMaker
 		possible_matches = []
 
 		guess.each_with_index do |letter, i|
-			possible_matches << 'o' if @unsolved_pattern[i] == letter
-			@matches_indexes << i
+			if @unsolved_pattern[i] == letter
+				possible_matches << 'o' 
+				@matches_indexes << i
+			end
 		end
 
 		possible_matches
 	end
+
+  def give_letter_feedback(guess)
+  	possible_matches = []
+
+  	new_pattern = @unsolved_pattern.clone
+  	@matches_indexes.each do |position|
+  		new_pattern[position] = '-'
+  	end
+
+  	guess.uniq.each do |letter|
+  		possible_matches << 'x' if new_pattern.include?(letter)
+  	end
+		possible_matches
+  end
 
 	def generate_code_pattern
     letter_pool = ('A'..'F').to_a
@@ -36,17 +52,4 @@ class CodeMaker
     pattern
   end
 
-  def give_letter_feedback(guess)
-  	new_pattern = @unsolved_pattern.clone
-  	@matches_indexes.each do |position|
-  		new_pattern[position] = '-'
-  	end
-
-  	possible_matches = []
-  	guess.each do |letter|
-
-  		possible_matches << 'x' if new_pattern.include?(letter)
-  	end
-		p possible_matches
-  end
 end

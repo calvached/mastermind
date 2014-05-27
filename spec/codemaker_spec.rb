@@ -1,6 +1,7 @@
 require 'codemaker'
 
 describe CodeMaker do
+
   context "position matches" do
     it "returns 4 if the guess matches pattern exactly" do
       codemaker = CodeMaker.new
@@ -31,6 +32,12 @@ describe CodeMaker do
       codemaker.unsolved_pattern = ["A", "B", "C", "D"]
       expect(codemaker.give_feedback(["A", "F", "F", "F"])).to eq(["o"])
     end
+
+    it 'returns 2 if guess has 2 duplicate letters in the same position as the pattern' do
+        codemaker = CodeMaker.new
+        codemaker.unsolved_pattern = ["A", "B", "A", "D"]
+        expect(codemaker.give_feedback(['A', 'A', 'A', 'F'])).to eq(['o','o'])
+    end
   end
 
   context "letter matches" do
@@ -57,15 +64,31 @@ describe CodeMaker do
       codemaker.unsolved_pattern = ["A", "B", "C", "D"]
       expect(codemaker.give_feedback(["B", "F", "F", "F"])).to eq(["x"])
     end
+
+    it 'returns 2 if the guess has 2 letters in the wrong position, but should not take into account any duplicate letters' do
+      codemaker = CodeMaker.new
+      codemaker.unsolved_pattern = ["A", "B", "C", "D"]
+      expect(codemaker.give_feedback(["B", "A", "A", "A"])).to eq(["x", "x"])
+    end
   end
 
   context "position & letter matches combined" do
     it "returns 1 exact match and 1 letter match if the guess has 1 letters in the wrong position and 1 letter in the correct position" do
         codemaker = CodeMaker.new
         codemaker.unsolved_pattern = ["A", "B", "C", "D"]
-        expect(codemaker.give_feedback(["A", "F", "B", "F"])).to eq(["x", "o"])
+        expect(codemaker.give_feedback(["A", "F", "B", "F"])).to eq(["o", "x"])
+    end
+
+    it 'returns 2 exact matches and 2 letter matches if the guess has 2 letters in the correct position and 2 letters in the wrong position' do
+        codemaker = CodeMaker.new
+        codemaker.unsolved_pattern = ["A", "B", "C", "D"]
+        expect(codemaker.give_feedback(["A", "C", "B", "D"])).to eq(["o", "o", "x", "x"])
+    end
+
+    it 'returns 1 exact match and 2 letter matches if the guess has 1 letters in the correct position and 2 letters in the wrong position' do
+      codemaker = CodeMaker.new
+      codemaker.unsolved_pattern = ["D", "B", "D", "A"]
+      expect(codemaker.give_feedback(["A", "D", "D", "D"])).to eq(["o", "x", "x"])
     end
   end
-
-# duplicate letters
 end

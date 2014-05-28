@@ -1,69 +1,52 @@
-require 'messages_to_player'
-
 class CodeMaker
-	attr_reader :solved_pattern
-	attr_accessor :current_position_match, :current_letter_match, :unsolved_pattern
+	attr_accessor :unsolved_pattern
 
-	def initialize
-		@message = MessagesToCodeBreaker.new
-		@unsolved_pattern = generate_code_pattern
-		@solved_pattern = false
-		@matches_indexes = []
-	end
-
-	def give_feedback(guess)
+	def feedback(guess)
 		@guess = guess
-		@solved_pattern = true if give_exact_feedback == ['o','o','o','o']
-		give_exact_feedback.concat(give_letter_feedback)
+		exact_feedback.concat(letter_feedback)
 	end
 
-	def give_exact_feedback
-		possible_matches = []
+	def exact_feedback
+		@matches_indexes = []
+		results = []
 
 		@guess.each_with_index do |letter, i|
 			if @unsolved_pattern[i] == letter
-				possible_matches << 'o' 
+				results << 'o' 
 				@matches_indexes << i
 			end
 		end
 
-		possible_matches
+		results
 	end
 
-  def give_letter_feedback
-  	possible_matches = []
-
-  	remaining_guess.each do |letter|
-  		possible_matches << 'x' if remaining_pattern.include?(letter)
-  	end
-		possible_matches
-  end
-
-  def remaining_guess
-  	new_guess = @guess.clone
-  	@matches_indexes.each do |position|
-  		new_guess[position] = '+'
+  def letter_feedback
+  	results = []
+  	get_unmatched(@guess, '+').uniq.each do |letter|
+  	  results << 'x' if get_unmatched(@unsolved_pattern, '-').include?(letter)
   	end
 
-  	new_guess.uniq
+		results
   end
 
-  def remaining_pattern
-  	pattern = @unsolved_pattern.clone
+  def get_unmatched(sequence, matched_placeholder)
+  	new_sequence = sequence.clone
 
   	@matches_indexes.each do |position|
-  		pattern[position] = '-'
+  		new_sequence[position] = matched_placeholder
   	end
 
-  	pattern
+  	new_sequence
   end
 
-	def generate_code_pattern
-    letter_pool = ('A'..'F').to_a
-    pattern = []
+	def generate
+		@unsolved_pattern = []
 
-    1.upto(4) { pattern << letter_pool.sample }
-    pattern
+    1.upto(4) { @unsolved_pattern << letter_pool.sample }
+  end
+
+  def letter_pool
+  	('A'..'F').to_a
   end
 
 end

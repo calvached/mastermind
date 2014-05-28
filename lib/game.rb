@@ -35,6 +35,7 @@ class Game
 
 	def start_game
 		maker = CodeMaker.new
+		maker.generate
 		@board = Board.new(maker.unsolved_pattern)
 
 		1.upto(10) do |num|

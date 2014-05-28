@@ -39,21 +39,23 @@ class Game
 
 		1.upto(10) do |num|
 			@board.show_current_guesses
-			puts maker.unsolved_pattern
+			puts "Unsolved pattern: #{maker.unsolved_pattern}"
 			print "Guess #{num}: "
 			guess = get_codebreaker_guess
 
-				while guess.empty? do
-					maker.give_feedback(guess)
-					print "Guess #{num}: "
-				  guess = get_codebreaker_guess
-				end
+				# while guess.empty? do
+				# 	maker.give_feedback(guess)
+				# 	print "Guess #{num}: "
+				#   guess = get_codebreaker_guess
+				# end
 
+				# This is interesting...
 			@board.save_guess(guess)
 
-			return game_finished(num) if maker.give_feedback(guess)
+			# return game_finished(num) if maker.give_feedback(guess) 
+			puts "Game solved? #{maker.solved_pattern}"
 
-			@board.save_feedback(maker.current_position_match, maker.current_letter_match)
+			@board.save_feedback(maker.give_feedback(guess))
 			@board.show_solved_board('LOSING') if num == 10
 		end
 	end

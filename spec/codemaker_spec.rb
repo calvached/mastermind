@@ -1,12 +1,31 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'codemaker'
 
 describe CodeMaker do
 
+  context 'Game status' do
+    it 'returns the game status as true if the pattern is an exact match' do
+      codemaker = CodeMaker.new
+      codemaker.unsolved_pattern = ["A", "B", "C", "D"]
+      codemaker.give_feedback(["A", "B", "C", "D"])
+      expect(codemaker.solved_pattern).to eq(true)
+    end
+
+    it 'returns the game status as false until the game is solved' do
+      codemaker = CodeMaker.new
+      codemaker.unsolved_pattern = ["A", "B", "C", "D"]
+      codemaker.give_feedback(["F", "F", "F", "F"])
+      expect(codemaker.solved_pattern).to eq(false)
+    end
+  end
+
   context "position matches" do
     it "returns 4 if the guess matches pattern exactly" do
       codemaker = CodeMaker.new
-      codemaker.unsolved_pattern = ["A", "B", "C", "D"]
-      expect(codemaker.give_feedback(["A", "B", "C", "D"])).to eq(["o", "o", "o", "o"])
+      codemaker.unsolved_pattern = ["A", "B", "E", "E"]
+      expect(codemaker.give_feedback(["A", "B", "E", "E"])).to eq(["o", "o", "o", "o"])
     end
 
     it "returns 0 if the guess has no letters in the same position as the pattern" do
@@ -85,10 +104,16 @@ describe CodeMaker do
         expect(codemaker.give_feedback(["A", "C", "B", "D"])).to eq(["o", "o", "x", "x"])
     end
 
-    it 'returns 1 exact match and 2 letter matches if the guess has 1 letters in the correct position and 2 letters in the wrong position' do
+    it 'returns 1 exact matches and 2 letter matches if the guess has 1 letter in the correct position and 2 letters in the wrong position' do
       codemaker = CodeMaker.new
       codemaker.unsolved_pattern = ["D", "B", "D", "A"]
       expect(codemaker.give_feedback(["A", "D", "D", "D"])).to eq(["o", "x", "x"])
+    end
+
+    it 'returns 2 exact matches if the guess has 2 letters in the correct position' do
+      codemaker = CodeMaker.new
+      codemaker.unsolved_pattern = ["E", "D", "E", "C"]
+      expect(codemaker.give_feedback(["E", "D", "D", "D"])).to eq(["o", "o"])
     end
   end
 end

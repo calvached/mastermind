@@ -14,8 +14,8 @@ class Board
 		@codebreaker_guesses << user_guess
 	end
 
-	def save_feedback(position_fb, letter_fb)
-		@feedback << convert_numbers_to_feedback_pegs(position_fb, letter_fb)
+	def save_feedback(feedback)
+		@feedback << feedback
 	end
 
 	def show_current_guesses
@@ -32,13 +32,6 @@ class Board
 		@codebreaker_guesses.length.downto(0) do |i|
 			@message.show_guess(@codebreaker_guesses[i], @feedback[i])
 		end
-	end
-
-	def convert_numbers_to_feedback_pegs(position_num, letter_num)
-		peg_holder = []
-		peg_holder << 'o' * position_num
-		peg_holder << 'x' * letter_num
-		randomize_feedback_pegs(peg_holder)
 	end
 
 	def randomize_feedback_pegs(peg_holder)

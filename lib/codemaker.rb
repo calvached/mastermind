@@ -8,19 +8,19 @@ class CodeMaker
 		@message = MessagesToCodeBreaker.new
 		@unsolved_pattern = generate_code_pattern
 		@solved_pattern = false
-		@current_position_match = nil
-		@current_letter_match = nil
 		@matches_indexes = []
 	end
 
 	def give_feedback(guess)
-		give_exact_feedback(guess).concat(give_letter_feedback(guess))
+		@guess = guess
+		@solved_pattern = true if give_exact_feedback == ['o','o','o','o']
+		give_exact_feedback.concat(give_letter_feedback)
 	end
 
-	def give_exact_feedback(guess)
+	def give_exact_feedback
 		possible_matches = []
 
-		guess.each_with_index do |letter, i|
+		@guess.each_with_index do |letter, i|
 			if @unsolved_pattern[i] == letter
 				possible_matches << 'o' 
 				@matches_indexes << i
@@ -30,18 +30,32 @@ class CodeMaker
 		possible_matches
 	end
 
-  def give_letter_feedback(guess)
+  def give_letter_feedback
   	possible_matches = []
 
-  	new_pattern = @unsolved_pattern.clone
-  	@matches_indexes.each do |position|
-  		new_pattern[position] = '-'
-  	end
-
-  	guess.uniq.each do |letter|
-  		possible_matches << 'x' if new_pattern.include?(letter)
+  	remaining_guess.each do |letter|
+  		possible_matches << 'x' if remaining_pattern.include?(letter)
   	end
 		possible_matches
+  end
+
+  def remaining_guess
+  	new_guess = @guess.clone
+  	@matches_indexes.each do |position|
+  		new_guess[position] = '+'
+  	end
+
+  	new_guess.uniq
+  end
+
+  def remaining_pattern
+  	pattern = @unsolved_pattern.clone
+
+  	@matches_indexes.each do |position|
+  		pattern[position] = '-'
+  	end
+
+  	pattern
   end
 
 	def generate_code_pattern

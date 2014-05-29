@@ -109,11 +109,26 @@ describe CodeMaker do
   end
 
   context 'generate' do
-    it 'returns a random pattern with a length of 4' do
+    it 'returns a pattern with a length of 4' do
       codemaker = CodeMaker.new
       codemaker.generate
       expect(codemaker.unsolved_pattern.length).to eq(4)
     end
-  end
 
+    it 'returns a pattern with letters between A and F' do
+      codemaker = CodeMaker.new
+      codemaker.generate
+      expect(codemaker.unsolved_pattern.join).to match(/[A-F]/)
+    end
+
+    it 'returns a random pattern'  do
+      codemaker = CodeMaker.new
+      codemaker.generate
+      pattern_1 = double(codemaker.unsolved_pattern)
+      codemaker.generate
+      pattern_2 = double(codemaker.unsolved_pattern)
+
+      expect(pattern_1) != (pattern_2)
+    end
+  end
 end

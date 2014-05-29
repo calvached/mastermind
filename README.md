@@ -8,11 +8,19 @@ Built in Ruby 2.1.1p76
 
 ## Configuration
 
-Clone the repo then navigate to the directory and execute:
+Clone the repo then navigate to the directory and execute: 
+```
+bundle
+```
+Start the game with: 
 ```
 ruby game.rb
 ```
 
+## How to run the test suite
+```
+rspec -c
+```
 ## Game Instructions
 
 The CodeMaker will generate a random pattern with 4 of the following letters: A, B, C, D, E, F. Your job is to break the code (correct letters and correct order) with the least number of guesses. You will have a total of 10 pattern guesses each game. After each guess the CodeMaker will provide feedback by telling you how many guesses are correct in both letter and position and also how many guesses are the correct letter, but in the wrong position.

@@ -121,16 +121,18 @@ describe CodeMaker do
       expect(codemaker.unsolved_pattern.join).to match(/[A-F]/)
     end
 
-    it 'returns a unique random pattern' do
+    it 'returns unique patterns 75% of the time' do
       codemaker = CodeMaker.new
-      pattern_holder = []
+      all_patterns = []
 
       500.times do
         codemaker.generate
-        pattern_holder << codemaker.unsolved_pattern
+        all_patterns << codemaker.unsolved_pattern
       end
 
-      expect(pattern_holder.length).to eq(pattern_holder.uniq.length)
+      unique_patterns = all_patterns.uniq
+
+      expect(unique_patterns.count / (all_patterns.count).to_f).to be > 0.75
     end
   end
 end

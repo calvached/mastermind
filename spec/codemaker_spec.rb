@@ -104,7 +104,7 @@ describe CodeMaker do
   context 'letter pool' do
     it 'returns an array of letters' do
       codemaker = CodeMaker.new
-      expect(codemaker.letter_pool).should be_kind_of(Array)
+      expect(codemaker.letter_pool).to be_kind_of(Array)
     end
   end
 

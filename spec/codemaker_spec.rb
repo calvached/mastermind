@@ -121,14 +121,16 @@ describe CodeMaker do
       expect(codemaker.unsolved_pattern.join).to match(/[A-F]/)
     end
 
-    it 'returns a random pattern'  do
+    it 'returns a unique random pattern' do
       codemaker = CodeMaker.new
-      codemaker.generate
-      pattern_1 = double(codemaker.unsolved_pattern)
-      codemaker.generate
-      pattern_2 = double(codemaker.unsolved_pattern)
+      pattern_holder = []
 
-      expect(pattern_1) != (pattern_2)
+      500.times do
+        codemaker.generate
+        pattern_holder << codemaker.unsolved_pattern
+      end
+
+      expect(pattern_holder.length).to eq(pattern_holder.uniq.length)
     end
   end
 end

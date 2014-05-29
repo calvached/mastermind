@@ -44,19 +44,14 @@ class Game
 			print "Guess #{num}: "
 			guess = get_codebreaker_guess
 
-				# while guess.empty? do
-				# 	maker.give_feedback(guess)
-				# 	print "Guess #{num}: "
-				#   guess = get_codebreaker_guess
-				# end
+				while guess.empty? do
+					print "Guess #{num}: "
+				  guess = get_codebreaker_guess
+				end
 
-				# This is interesting...
 			@board.save_guess(guess)
 
-			# return game_finished(num) if maker.give_feedback(guess) 
-			puts "Game solved? #{maker.solved_pattern}"
-
-			@board.save_feedback(maker.give_feedback(guess))
+			@board.save_feedback(maker.feedback(guess))
 			@board.show_solved_board('LOSING') if num == 10
 		end
 	end

@@ -22,6 +22,7 @@ class CodeMaker
 
   def letter_feedback
   	results = []
+
   	get_unmatched(@guess, '+').uniq.each do |letter|
   	  results << 'x' if get_unmatched(@unsolved_pattern, '-').include?(letter)
   	end

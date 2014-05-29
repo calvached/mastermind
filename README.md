@@ -8,16 +8,17 @@ Built in Ruby 2.1.1p76
 
 ## Configuration
 
-Clone the repo then navigate to the directory and execute: 
+Clone the repo then navigate to the main directory and execute:
 ```
 bundle
 ```
-Start the game with: 
+Navigate to the bin folder and start the game with:
 ```
-ruby game.rb
+ruby mastermind
 ```
 
 ## How to run the test suite
+Navigate to the main directory and execute:
 ```
 rspec -c
 ```

@@ -10,7 +10,7 @@ Built in Ruby 2.1.1p76
 
 Clone the repo then navigate to the main directory and execute:
 ```
-bundle
+bundle install
 ```
 Navigate to the bin folder and start the game with:
 ```
